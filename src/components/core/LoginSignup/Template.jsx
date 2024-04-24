@@ -63,7 +63,7 @@ const Template = ({title, desc1, desc2, image1, image2, formType, setIsLoggedIn}
 
             </div>
 
-            <div className="w-fit">
+            <div className="my-auto">
                 <img src={image2} alt="Background Img" className="relative h-[350px] w-[400px]"/>
                 <img src={image1} alt="Login Image" className="absolute h-[350px] w-[400px] translate-y-[-105%] translate-x-[-5%]" />
             </div>
