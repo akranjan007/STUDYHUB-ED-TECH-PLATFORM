@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import CTAButton from "../hompage/Button";
+import { login } from "../../../Services/Operations/AuthApi";
+import { useDispatch } from "react-redux";
 
 const LoginForm = ({setIsLoggedIn}) => {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [ formData, setFormData ] = useState({
         email:"", password:""
@@ -21,28 +25,22 @@ const LoginForm = ({setIsLoggedIn}) => {
         ))
     }
 
-    const navigate = useNavigate();
-
     function submitHandler(event){
         event.preventDefault();
-        setIsLoggedIn(true);
-        console.log("printing account data")
-        console.log(formData)
-        navigate("/dashboard");
-
+        dispatch(login(formData.email, formData.password, navigate))
     }
 
-    const [ accountType, setAccountType ] = useState("student");
+    const [ accountType, setAccountType ] = useState("Student");
 
     return(
         <div className="flex flex-col g-4 mt-8 w-[100%]">
             <div className="w-[50%] bg-richblack-800 rounded-full p-1 mt-4">
-                <button className={` ${accountType === "student" ? "bg-black text-richblack-200 rounded-full p-2 w-[50%]" : " text-richblack-50 rounded-full p-2 w-[50%]"}`} 
-                onClick={() => setAccountType("student")}>
+                <button className={` ${accountType === "Student" ? "bg-black text-richblack-200 rounded-full p-2 w-[50%]" : " text-richblack-50 rounded-full p-2 w-[50%]"}`} 
+                onClick={() => setAccountType("Student")}>
                     Student
                 </button>
-                <button className={` ${accountType === "student" ? " text-richblack-50 rounded-full p-2 w-[50%]" : "bg-black text-richblack-200 rounded-full p-2 w-[50%]"}`}
-                onClick={() => setAccountType("instructor")}>
+                <button className={` ${accountType === "Student" ? " text-richblack-50 rounded-full p-2 w-[50%]" : "bg-black text-richblack-200 rounded-full p-2 w-[50%]"}`}
+                onClick={() => setAccountType("Instructor")}>
                     Instructor
                 </button>
             </div>
@@ -78,13 +76,12 @@ const LoginForm = ({setIsLoggedIn}) => {
                         {showPassword ? (<AiOutlineEyeInvisible/>) : (<AiOutlineEye/>)}
                     </span>
                 </label>
-                <Link to="#">
+                <Link to="/forget-password">
                     <p className="text-[12px] absolute translate-x-[320%] cursor-pointer">Forget Password</p>
                 </Link>
                 
-                <div className="mt-10 w-[56%]">
-                    <CTAButton type="submit" active={true} linkto={"/"}>Sign In</CTAButton>
-                </div>
+                
+                <button  type="submit"  className = "mt-8 w-[56%] mt-6 rounded-[8px] bg-yellow-500 py-[8px] px-[12px] font-medium text-richblack-900">Sign In</button>
             </form>
         </div>
         

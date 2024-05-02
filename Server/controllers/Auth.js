@@ -5,6 +5,8 @@ const otpGenerator = require('otp-generator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const mailSender = require("../utils/mailSender");
+const otpTemplate = require("../mailTemplates/emailVerification");
 
 //send otp function
 exports.sendOTP = async(req, res) => {
@@ -16,7 +18,7 @@ exports.sendOTP = async(req, res) => {
         const chechUserPresence = await User.findOne({email});
         //if user present send a response
         if( chechUserPresence ){
-            return res.response(401).json({
+            return res.status(401).json({
                 success:"False",
                 message:"User already exists.",
             });
@@ -48,15 +50,24 @@ exports.sendOTP = async(req, res) => {
         const otpBody = await OTP.create(otpPayLoad);
         console.log(otpBody);
 
+        try {                                                          // Send notification email , here passwordUpdated is template of email which is send to user;
+			const emailResponse = await mailSender(email, "Verification mail from StudyPilot", otpTemplate(otp));
+			console.log("Email sent successfully:", emailResponse.response);
+		   } 
+        catch(error) {
+			return res.status(500).json({
+				success: false,
+				message: "Error occurred while sending email",
+				error: error.message,
+			});
+		}
+
         //return success response
         res.status(200).json({
             success:true,
             message:"OTP generation successful",
             otp,
         });
-
-
-
 
     }
     catch(error){
@@ -71,7 +82,7 @@ exports.sendOTP = async(req, res) => {
 
 
 //sign up function
-exports.signUp = async(req, res) => {
+exports.signup = async(req, res) => {
     try{
         //fetch all the data from the request body
         const {
@@ -152,6 +163,7 @@ exports.signUp = async(req, res) => {
 
 
 };
+
 
 //login function 
 exports.login = async(req,res) =>  {

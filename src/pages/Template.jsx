@@ -1,13 +1,13 @@
 import React from "react";
-import SignupForm from "./SignupForm";
-import LoginForm from "./LoginForm";
-import HightlightText from "../hompage/HighlightText";
+import SignupForm from "../components/core/LoginSignup/SignupForm";
+import LoginForm from "../components/core/LoginSignup/LoginForm";
+import HightlightText from "../components/core/hompage/HighlightText";
 import { FcGoogle } from "react-icons/fc";
-import CTAButton from "../hompage/Button";
+import CTAButton from "../components/core/hompage/Button";
 
 const Template = ({title, desc1, desc2, image1, image2, formType, setIsLoggedIn}) => {
     return (
-        <div className="flex flex-row justify-center items-start mx-auto mt-[100px] max-w-maxContent w-11/12 gap-[10px]">
+        <div className="flex flex-row justify-center items-start mx-auto mt-[30px] max-w-maxContent w-11/12 gap-[10px]">
             <div className="flex flex-col text-white w-[50%] ">
                 <div className="w-10/12">
                     <h1 className="text-4xl font-semibold text-left mt-3">{title}</h1>

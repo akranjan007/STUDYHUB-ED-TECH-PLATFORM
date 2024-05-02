@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import CTAButton from "../hompage/Button";
+import { useDispatch } from "react-redux";
+import { sendOtp } from "../../../Services/Operations/AuthApi";
+import { setSignupData } from "../../../slices/authSlice";
+import toast from "react-hot-toast";
 
 const SignupForm = ({setIsLoggedIn}) => {
 
     const [ formData, setFormData ] = useState({
-        fname:"", lname:"", email:"", createpass:"", confpass:""
+        firstName:"", lastName:"", email:"", password:"", confirmPassword:""
     })
 
     function changeHandler(event){
@@ -21,41 +24,32 @@ const SignupForm = ({setIsLoggedIn}) => {
 
     const [ showPassword, setShowPassword ] = useState(false);
     const [ showPassword1, setShowPassword1 ] = useState(false);
+    const [ accountType, setAccountType ] = useState("Student");
 
     const navigate = useNavigate();
-    function submitHandler(event){
-        event.preventDefault();
-        if(formData.createpass !== formData.confpass){
-            console.log("password does not match")
-        }
-        else{
-            setIsLoggedIn(true);
-            
-
-            const finalData = {
-                ...formData,
-                accountType
-            }
-            console.log("printing account data");
-            console.log(finalData);
-
-            navigate("/dashboard");
-        }
-    }
-
-    const [ accountType, setAccountType ] = useState("student");
-
+    const dispatch = useDispatch();
     
+    
+    //console.log(signupData);
 
+    function submitHandler(e){
+        e.preventDefault();
+        if(formData.password !== formData.confirmPassword) {toast.error("Passwords do not match");  return ; }
+        const signupData = { ...formData , accountType};
+        dispatch(setSignupData(signupData))                     // Setting signup data to state To be used after otp verification
+        dispatch(sendOtp(formData.email, navigate))            // Send OTP to user for verification
+        setFormData({firstName: "", lastName: "",  email: "",  password: "",  confirmPassword: "",})
+    }
+    
     return(
         <div className="flex flex-col g-4 mt-8 w-[100%]">
             <div className="w-[50%] bg-richblack-800 rounded-full p-1 mt-4">
-                <button className={` ${accountType === "student" ? "bg-black text-richblack-200 rounded-full p-2 w-[50%]" : " text-richblack-50 rounded-full p-2 w-[50%]"}`} 
-                onClick={() => setAccountType("student")}>
+                <button className={` ${accountType === "Student" ? "bg-black text-richblack-200 rounded-full p-2 w-[50%]" : " text-richblack-50 rounded-full p-2 w-[50%]"}`} 
+                onClick={() => setAccountType("Student")}>
                     Student
                 </button>
-                <button className={` ${accountType === "student" ? " text-richblack-50 rounded-full p-2 w-[50%]" : "bg-black text-richblack-200 rounded-full p-2 w-[50%]"}`}
-                onClick={() => setAccountType("instructor")}>
+                <button className={` ${accountType === "Student" ? " text-richblack-50 rounded-full p-2 w-[50%]" : "bg-black text-richblack-200 rounded-full p-2 w-[50%]"}`}
+                onClick={() => setAccountType("Instructor")}>
                     Instructor
                 </button>
             </div>
@@ -65,8 +59,8 @@ const SignupForm = ({setIsLoggedIn}) => {
                         <p className=" mt-1">First Name<sup>*</sup></p>
                         <input
                             type="text"
-                            name="fname"
-                            value={formData.fname}
+                            name="firstName"
+                            value={formData.firstName}
                             onChange={changeHandler}
                             placeholder="Enter First Name"
                             required
@@ -77,8 +71,8 @@ const SignupForm = ({setIsLoggedIn}) => {
                         <p className="text-richblack-300 mt-1">Last Name<sup>*</sup></p>
                         <input
                             type="text"
-                            name="lname"
-                            value={formData.lname}
+                            name="lastName"
+                            value={formData.lastName}
                             onChange={changeHandler}
                             placeholder="Enter Last Name"
                             required
@@ -104,14 +98,14 @@ const SignupForm = ({setIsLoggedIn}) => {
                         <p className="text-richblack-300 mt-1">Create Password<sup>*</sup></p>
                         <input
                             type={showPassword ? ("text") : ("password")}
-                            name="createpass"
-                            value={formData.createpass}
+                            name="password"
+                            value={formData.password}
                             onChange={changeHandler}
                             placeholder="Enter Password"
                             required
                             className="w-[85%] text-[12px] p-2 bg-richblack-800 mt-2 outline-none rounded-sm"
                         />
-                        <span onClick={() => setShowPassword((prev) => !prev)} className="absolute  translate-y-[100%] translate-x-[-160%] text-white">
+                        <span onClick={() => setShowPassword((prev) => !prev)} className="absolute  translate-y-[100%] translate-x-[-160%] ">
                             {showPassword ? (<AiOutlineEyeInvisible/>) : (<AiOutlineEye/>)}
                         </span>
                     </label>
@@ -119,21 +113,19 @@ const SignupForm = ({setIsLoggedIn}) => {
                         <p className="text-richblack-300 mt-1">Confirm Password<sup>*</sup></p>
                         <input
                             type={showPassword1 ? ("text") : ("password")}
-                            name="confpass"
-                            value={formData.confpass}
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
                             onChange={changeHandler}
                             placeholder="Confirm Password"
                             required
                             className="w-[85%] text-[12px] p-2 bg-richblack-800 mt-2 outline-none rounded-sm"
                         />
-                        <span onClick={() => setShowPassword1((prev) => !prev)} className="absolute  translate-y-[100%] translate-x-[-160%] text-white">
+                        <span onClick={() => setShowPassword1((prev) => !prev)} className="absolute  translate-y-[100%] translate-x-[-160%] ">
                             {showPassword1 ? (<AiOutlineEyeInvisible/>) : (<AiOutlineEye/>)}
                         </span>
                     </label>
                 </div>
-                <div className="w-[92%] mt-8">
-                    <CTAButton type="submit" active={true} linkto={"/"}>Create Account</CTAButton>
-                </div>
+                <button  type="submit"  className = "w-[93%] mt-6 rounded-[8px] bg-yellow-500 py-[8px] px-[12px] font-medium text-richblack-900">  Create Account </button>
             </form>
         </div>
     );

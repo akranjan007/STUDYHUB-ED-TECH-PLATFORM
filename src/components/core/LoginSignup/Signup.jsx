@@ -1,5 +1,5 @@
 import React from "react";
-import Template from "./Template";
+import Template from "../../../pages/Template";
 import signupbg from "../../../assets/images/bgwhite.jpg"
 import SignUpImg from "../../../assets/images/signupimg.jpg"
 
