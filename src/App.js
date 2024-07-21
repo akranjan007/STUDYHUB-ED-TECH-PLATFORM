@@ -9,6 +9,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword';
 import VerifyEmail from './pages/VerifyEmail';
 import Logout from './pages/Logout';
+import About from './pages/About';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="update-password/:id" element={<UpdatePassword/>} />
         <Route path="verify-email" element={<VerifyEmail/>} />
         <Route path="dashboard/my-profile" element={<Logout/>} />
+        <Route path='about' element={<About/>} />
       </Routes>
     </div>
   );

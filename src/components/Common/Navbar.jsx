@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Logo from "../../assets/logo/sp2light.png"
+import Logo from "../../assets/logo/srudypilot_nobg.png";
 import { Navbarlinks } from "../../data/Navbar-links";
 import { matchPath } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -74,10 +74,12 @@ const Navbar = () => {
                                     <p>{link.title}</p>
                                     <RiArrowDropDownLine/>
 
-                                    <div className="flex flex-col rounded-md p-4 bg-richblack-50 text-richblack-800 opacity-0
-                                        transition-all duration-200 invisible group-hover:visible group-hover:opacity-100 lg:w-[200px] 
-                                        absolute left-[50%] top-[55%] translate-x-[-50%] translate-y-[50%]">
-                                            <div className="absolute rounded rotate-45 bg-richblack-50 h-6 w-6 left-[57%] top-[-12%]">
+                                    <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%]
+                                     translate-y-[3em] flex-col rounded-lg bg-richblack-100 p-4 text-richblack-900 opacity-0
+                                      transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] 
+                                      group-hover:opacity-100 lg:w-[200px]">
+                                        <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%]
+                                         rotate-45 select-none rounded bg-richblack-100">
                                             </div>
                                             <div>
                                                 {
