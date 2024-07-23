@@ -1,10 +1,9 @@
 import React from "react";
+import Logout from "../../../pages/Logout";
 
 const ProfileDropDown = () => {
     return (
-        <div>
-
-        </div>
+        <Logout/>
     )
 }
 

@@ -4,12 +4,13 @@ import Logo from "../../assets/logo/srudypilot_nobg.png";
 import { Navbarlinks } from "../../data/Navbar-links";
 import { matchPath } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
 import { apiConnector } from "../../Services/apiconnector";
 import { categories } from "../../Services/apis";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import Logout from "../../pages/Logout";
+import ProfileDropdown from "../core/Auth/ProfileDropDown";
 
 
 /*
@@ -148,9 +149,12 @@ const Navbar = () => {
                     )
                 }
                 {
-                    token !== null && <Logout/>
+                    token !== null && <ProfileDropdown/>
                 }
             </div>
+            <button className="mr-4 md:hidden">
+                <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
+            </button>
 
         </div>
         <div className="bg-richblack-600 h-[1px] w-[100%]"></div>
