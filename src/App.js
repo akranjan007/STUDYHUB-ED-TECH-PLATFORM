@@ -11,6 +11,11 @@ import VerifyEmail from './pages/VerifyEmail';
 import Logout from './pages/Logout';
 import About from './pages/About';
 import ContactUs from './pages/ContactUs';
+import MyProfile from './components/core/Dashboard/MyProfile';
+import Dashboard from './pages/Dashboard';
+import PrivateRoute from './components/core/Auth/PrivateRoute';
+import Error from './pages/Error';
+import EnrolledCourses from './components/core/Dashboard/EnrolledCourses';
 
 function App() {
 
@@ -26,7 +31,17 @@ function App() {
         <Route path="forget-password" element={<ForgotPassword/>}/>
         <Route path="update-password/:id" element={<UpdatePassword/>} />
         <Route path="verify-email" element={<VerifyEmail/>} />
-        <Route path="dashboard/my-profile" element={<MyProfile/>} />
+        <Route element={
+          <PrivateRoute>
+            <Dashboard/>
+        </PrivateRoute>
+        }>
+
+            <Route path="dashboard/my-profile" element={<MyProfile/>} />
+            <Route path="dashboard/settings" element={<Error/>} />
+            <Route path="dashboard/cart" element={<Error/>} />
+            <Route path="dashboard/enrolled-courses" element={<EnrolledCourses/>} />
+        </Route>
         <Route path='about' element={<About/>} />
         <Route path='contact' element={<ContactUs/>} />
       </Routes>

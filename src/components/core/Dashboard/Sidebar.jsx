@@ -15,6 +15,7 @@ const Sidebar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+
     const [confirmationModal, setConfirmationModal] = useState(null);
 
     if(profileLoading || authLoading){
@@ -27,11 +28,11 @@ const Sidebar = () => {
 
     return (
         <div>
-            <div className="flex flex-col min-w-[220px] border-r-[1px] border-r-richblack-600 
-            bg-richblack-800 py-10 h-[calc(100vh-3.5rem)]">
+            <div className="flex h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 
+            bg-richblack-800 py-5">
                 <div className="flex flex-col">
                     {
-                        sidebarLinks.map((link, index) => {
+                        sidebarLinks.map((link) => {
                             if(link.type && user?.accountType !== link.type)    return null;
                             return (
                                 <SidebarLink key={link.id} link={link} iconName={link.icon}/>
@@ -39,7 +40,7 @@ const Sidebar = () => {
                         })
                     }
                 </div>
-                <div className="mt-6 mb-6 w-10/12 h-[1px] mx-auto "></div>
+                <div className="mt-6 mb-6 w-10/12 h-[1px] mx-auto bg-richblack-600"></div>
                 <div className="flex flex-col">
                     <SidebarLink  link={{name:"Settings", path:"dashboard/settings"}} iconName="VscSettingsGear" />
                     <button 
@@ -51,7 +52,8 @@ const Sidebar = () => {
                         btn1handler: () => dispatch(logout(Navigate)),
                         btn2handler: () => setConfirmationModal(null),
                     })}
-                    className="text-sm font-medium text-richblack-400">
+                    className="text-sm font-medium text-richblack-100 px-14">
+
                         <div className="flex gap-3 item-center">
                             <VscSignOut className="text-lg" />
                             <span>Logout</span>

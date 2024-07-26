@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../Services/Operations/AuthApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const LoginForm = ({setIsLoggedIn}) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    //const { isAuthenticated } = useSelector((state) => state.auth);
 
     const [ formData, setFormData ] = useState({
         email:"", password:""
@@ -31,6 +32,12 @@ const LoginForm = ({setIsLoggedIn}) => {
     }
 
     const [ accountType, setAccountType ] = useState("Student");
+
+    /*useEffect(() => {
+        if(isAuthenticated){
+            navigate("dashboard/my-profile");
+        }
+    }, [ isAuthenticated, navigate])*/
 
     return(
         <div className="flex flex-col g-4 mt-8 w-[100%]">
